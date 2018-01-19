@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->string('password');
-            $table->string('pseudo_git');
+            $table->string('pseudo_git')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
