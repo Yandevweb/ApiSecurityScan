@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,15 @@ use Illuminate\Http\Request;
 |
 */
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('login', 'API\PassportController@login');
-Route::post('register', 'API\PassportController@register');
+Route::post('login', 'Api\PassportController@login');
+Route::post('register', 'Api\PassportController@register');
 
 Route::group(['middleware' => 'auth:api'], function(){
-Route::post('get-details', 'API\PassportController@getDetails');
+Route::post('get-details', 'Api\PassportController@getDetails');
 });
+
+Route::post('urltest','Api\ControllerUrl@test');
