@@ -9,23 +9,34 @@ use GuzzleHttp\Client;
 
 class ControllerUrl extends Controller
 {
+    /**
+     * @param Request $request
+    */
     public function  test (Request $request)
     {
         $url = $request->input('url');
+        $firstReplace='';
 
+        if(!(stristr($url, 'https://github.com/') === FALSE))
+        {
+            $firstReplace = str_replace('https://github.com/','',$url);
 
-        $firstReplace = str_replace('https://github.com/','',$url);
-        $depot = str_replace('.git','',$firstReplace);
+        }
+        if(!(stristr($firstReplace, '.git') === FALSE)){
+            $depot = str_replace('.git','',$firstReplace);
 
-        var_dump($depot);
+        }else{
 
-
+            return response()->json(['error'=>'format  url incorect']);
+        }
 
         $client = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'https://api.github.com/repos/',
             // You can set any number of default request options.
-            'timeout'  => 2.0,]);
+            'timeout'  => 2.0,
+            //verification certificat https
+            'verify' => false]);
 
         $response = $client->request('GET', $depot);
 
@@ -33,7 +44,7 @@ class ControllerUrl extends Controller
         $code = $response->getStatusCode();
 
         if($code == '404'){
-            echo 'fuck you';
+            return response()->json(['error'=>'dépot inexistant'], 401);
         }
         else{
             $body = $response->getBody();
@@ -48,13 +59,10 @@ class ControllerUrl extends Controller
                 var_dump($responseDecoded['private']);
             }
             else{
-                var_dump($responseDecoded);
+                //var_dump($responseDecoded);
+                return response()->json(['succes'=>'repot existant'], 202);
             }
         }
-
-
-
-
-//        return response()->$client;
+        
     }
 }
