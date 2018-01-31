@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use GuzzleHttp\Client;
 
 class ControllerUrl extends Controller
@@ -16,16 +14,13 @@ class ControllerUrl extends Controller
     {
         $url = $request->input('url');
         $firstReplace='';
-
         if(stristr($url, 'https://github.com/') !== false)
         {
             $firstReplace = str_replace('https://github.com/','',$url);
-
         }
         if(stristr($firstReplace, '.git') !== false){
             $depot = str_replace('.git','',$firstReplace);
-
-        }else{
+        } else {
             return response()->json(['error'=>'format  url incorect']);
         }
 
@@ -50,7 +45,6 @@ class ControllerUrl extends Controller
             $stringBody = (string) $body;
             //decode du json pour passage en array
             $responseDecoded = json_decode($stringBody,true);
-
             $repoName = $responseDecoded['name'];
 
             //recuperation d'un boolean pour determiner si depot privé
@@ -59,8 +53,6 @@ class ControllerUrl extends Controller
                 var_dump($responseDecoded['private']);
             } else {
                 $path = env('REPOSITORIES_PATH') ."/". $repoName;
-
-
                 // Suppression du Repo si il est déjà existant
                 if (is_dir($path)){
                     shell_exec('rm -rf '. $path);
