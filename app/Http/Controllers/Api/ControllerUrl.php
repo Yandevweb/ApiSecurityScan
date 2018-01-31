@@ -32,7 +32,7 @@ class ControllerUrl extends Controller
             //verification certificat https
             'verify' => false]);
 
-        $response = $client->request('GET', $depot);
+        $response = $client->request('GET', $depot, ['http_errors' => false]);
 
         //Recuperation du code http
         $code = $response->getStatusCode();
