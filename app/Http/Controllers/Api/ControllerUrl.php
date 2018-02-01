@@ -13,13 +13,14 @@ class ControllerUrl extends Controller
     public function  test (Request $request)
     {
         $url = $request->input('url');
-        $firstReplace='';
-        if(stristr($url, 'https://github.com/') !== false)
+        $depot = $url;
+        if(stristr($depot, 'https://github.com/') !== false)
         {
-            $firstReplace = str_replace('https://github.com/','',$url);
+            $depot = str_replace('https://github.com/','',$depot);
         }
-        if(stristr($firstReplace, '.git') !== false){
-            $depot = str_replace('.git','',$firstReplace);
+
+        if(stristr($depot, '.git') !== false){
+            $depot = str_replace('.git','',$depot);
         } else {
             return response()->json(['error'=>'format url incorrect']);
         }
@@ -45,7 +46,8 @@ class ControllerUrl extends Controller
             $stringBody = (string) $body;
             //decode du json pour passage en array
             $responseDecoded = json_decode($stringBody,true);
-            $repoName = $responseDecoded['name'];
+            $repoName   = $responseDecoded['name'];
+            $ownerLogin = $responseDecoded['owner']['login'];
 
             //recuperation d'un boolean pour determiner si depot privé
             $isPrivate = $responseDecoded['private'];
@@ -53,13 +55,14 @@ class ControllerUrl extends Controller
                 var_dump($responseDecoded['private']);
             } else {
                 // Par défaut dans répertoire de l'utilisateur non authentifié
-                $path = env('FREE_USER_PROJECTS_PATH') ."/". $repoName;
+                $path = env('FREE_USER_PROJECTS_PATH') ."/". $ownerLogin ."_". $repoName;
                 // Suppression du Repo si il est déjà existant
                 if (is_dir($path)){
                     shell_exec('rm -rf '. $path);
                 }
                 // Clonage du repo
                 $res = shell_exec("git clone --depth 1 ". $url ." ". $path . " 2>&1");
+
                 $statusCode = 200;
                 // Si il est bien cloné
                 if(stristr($res, 'Cloning') !== false)
