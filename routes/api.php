@@ -26,4 +26,6 @@ Route::post('get-details', 'Api\PassportController@getDetails');
 });
 
 Route::post('urltest','Api\ControllerUrl@test');
-Route::post('tools','Api\ControllerTool@toolphpca');
+Route::post('tools/phpca','Api\ControllerTool@toolphpca');
+Route::post('tools/phpcs','Api\ControllerTool@toolPhpCs');
+Route::post('tools/phpmetrics','Api\ControllerTool@toolPhpMetrics');
