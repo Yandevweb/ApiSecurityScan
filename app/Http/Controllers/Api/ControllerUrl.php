@@ -21,7 +21,7 @@ class ControllerUrl extends Controller
         if(stristr($firstReplace, '.git') !== false){
             $depot = str_replace('.git','',$firstReplace);
         } else {
-            return response()->json(['error'=>'format  url incorect']);
+            return response()->json(['error'=>'format url incorrect']);
         }
 
         $client = new Client([
@@ -52,7 +52,8 @@ class ControllerUrl extends Controller
             if($isPrivate == 'true'){
                 var_dump($responseDecoded['private']);
             } else {
-                $path = env('REPOSITORIES_PATH') ."/". $repoName;
+                // Par défaut dans répertoire de l'utilisateur non authentifié
+                $path = env('FREE_USER_PROJECTS_PATH') ."/". $repoName;
                 // Suppression du Repo si il est déjà existant
                 if (is_dir($path)){
                     shell_exec('rm -rf '. $path);
