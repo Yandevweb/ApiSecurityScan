@@ -5,9 +5,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use DateTime;
+use App\Http\Controllers\Api\ControllerTool;
 
 class ControllerUrl extends Controller
 {
+
     /**
      * @param Request $request
     */
@@ -73,6 +75,10 @@ class ControllerUrl extends Controller
                 // Si il est bien cloné
                 if(stristr($res, 'Cloning') !== false)
                 {
+                    $tool = new ControllerTool($path, $repoName);
+                    $res = $this->launchTest($tool);
+
+
                     return response()->json(['status'=>'success', 'return' => $res], $statusCode);
                 } else if (stristr($res, 'fatal') !== false){
                     // Sinon erreur..
@@ -81,5 +87,13 @@ class ControllerUrl extends Controller
                 }
             }
         }
+    }
+
+    public function launchTest(ControllerTool $tool)
+    {
+
+        $res = $tool->toolPhpca();
+
+        return $res;
     }
 }
