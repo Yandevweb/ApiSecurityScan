@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use DateTime;
 
 class ControllerUrl extends Controller
 {
@@ -54,8 +55,13 @@ class ControllerUrl extends Controller
             if($isPrivate == 'true'){
                 var_dump($responseDecoded['private']);
             } else {
+
+                // Creation d'un user id à partir d'un timestamp
+                $date = new DateTime();
+                $tempUserId = $date->getTimeStamp();
+
                 // Par défaut dans répertoire de l'utilisateur non authentifié
-                $path = env('FREE_USER_PROJECTS_PATH') ."/". $ownerLogin ."_". $repoName;
+                $path = env('FREE_USER_PATH') ."/". $tempUserId ."/". $repoName;
                 // Suppression du Repo si il est déjà existant
                 if (is_dir($path)){
                     shell_exec('rm -rf '. $path);
