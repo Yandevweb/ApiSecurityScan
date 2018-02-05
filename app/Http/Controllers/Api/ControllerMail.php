@@ -19,7 +19,7 @@ class ControllerMail extends Controller
             Mail::send('emails.welcome', $data, function ($message)use ($emails, $data) {
             $message->from('gnorvene2@gmail.com', 'result php');
             $message->to($emails)->subject('Report  test');
-               
+
             });
         }
         catch (\Exception $e)
