@@ -1,106 +1,47 @@
 <?php
-
 namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Api\AbstractTools;
 
-
-use App\Http\Controllers\Controller;
-
-
-class ControllerTool extends Controller
+class ControllerTool extends AbstractTools
 {
-
-    public function toolphpca(){
-        $request="TM-Laravel";
-
-        //path  to project
-        chdir('../tmp');
-        $projectPath = getcwd();
-
-        //path de l'analyseur
-        $path = env('VENDOR_BIN_PATH'); //../vendor/bin
-
-//        if (is_dir($path)){
-//            //lancement du test
-//           $res = shell_exec('phpca --no-progress '. $path. " 2>&1");
-//          $filename= $path."/testphpca.txt";
-//          file_put_contents($filename,$res);
-//        }
-
-        if (is_dir($projectPath.'/'.$request)){
-            //lancement du test
-            $res = shell_exec($path.'phpca --no-progress '.$request.' 2>&1');
-            $filename = $projectPath."/testphpca.txt";
-            file_put_contents($filename,$res);
-        }
-
-
-        return response()->json(['status'=>'success', 'return' => $res]);
+    public function __construct($projectPath, $repoName, $logsPath)
+    {
+        parent::__construct($projectPath, $repoName, $logsPath);
     }
 
+    public function toolPhpca()
+    {
+        $res = shell_exec($this->_vendorBinPath.'phpca --no-progress '.$this->_projectPath.' 2>&1');
+        $filename = $this->_logsPath."/testPhpca.txt";
+        file_put_contents($filename,$res);
 
-    public function toolPhpCs(){
-        $request="TM-Laravel";
-
-        //path  to project
-        chdir('../tmp');
-        $projectPath = getcwd();
-
-        //path de l'analyseur
-        $path = env('VENDOR_BIN_PATH');//../vendor/bin
-
-
-        if (is_dir($projectPath.'/'.$request)){
-            //lancement du test
-            $res = shell_exec($path.'phpcs '.$request);
-            $filename = $projectPath."/testphpcs.txt";
-            file_put_contents($filename,$res);
-        }
-
-        return response()->json(['status'=>'success', 'return' => $res]);
+        return $res;
     }
 
+    public function toolPhpCs()
+    {
+        $res = shell_exec($this->_vendorBinPath.'phpcs '.$this->_projectPath);
+        $filename = $this->_logsPath."/testPhpcs.txt";
+        file_put_contents($filename,$res);
 
-    public function toolPhpMetrics(){
-        $request="TM-Laravel";
-
-        //path  to project
-        chdir('../tmp');
-        $projectPath = getcwd();
-
-        //path de l'analyseur
-        $path = env('VENDOR_BIN_PATH');//../vendor/bin
-
-
-        if (is_dir($projectPath.'/'.$request)){
-            //lancement du test
-            $res = shell_exec($path.'phpmetrics --report-html='.$projectPath.'/phpmetrics '.$request);
-            $filename = $projectPath."/testphpmetrics.txt";
-            file_put_contents($filename,$res);
-        }
-
-        return response()->json(['status'=>'success', 'return' => $res]);
+        return $res;
     }
 
+    public function toolPhpMetrics()
+    {
+        $res = shell_exec($this->_vendorBinPath.'phpmetrics --report-html='.$this->_projectPath.'/phpmetrics '.$this->_projectPath);
+        $filename = $this->_logsPath."/testPhpMetrics.txt";
+        file_put_contents($filename,$res);
 
-    public function testability(){
-        $request="TM-Laravel";
-
-        //path  to project
-        chdir('../tmp');
-        $projectPath = getcwd();
-
-        //path de l'analyseur
-        $path = env('VENDOR_BIN_PATH');//../vendor/bin
-
-
-        if (is_dir($projectPath.'/'.$request)){
-            //lancement du test
-            $res = shell_exec($path.'testability '.$request.' -o testability');
-            $filename = $projectPath."/testability.txt";
-            file_put_contents($filename,$res);
-        }
-
-        return response()->json(['status'=>'success', 'return' => $res]);
+        return $res;
     }
 
+    public function toolTestability()
+    {
+        $res = shell_exec($this->_vendorBinPath.'testability '.$this->_projectPath.' -o '. $this->_logsPath);
+        $filename = $this->_logsPath."/testAbility.txt";
+        file_put_contents($filename,$res);
+
+        return $res;
+    }
 }
