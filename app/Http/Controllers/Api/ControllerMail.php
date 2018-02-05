@@ -11,10 +11,10 @@ class ControllerMail extends Controller
 
     public function sendEmail()
     {
-
-        $from = 'scanphp@gmail.com';
         $data = array(
-            'name' => "app-secure-scan");
+            'name' => "app-secure-scan"
+        );
+
         $emails = ['enfoux.kevin@gmail.com', 'gnorvene@gmail.com', 'gregory.norvene@laposte.net', 'yannick.jeanjean.pro@gmail.com'];
         chdir('../tmp');
         $projectPath = getcwd();
@@ -31,17 +31,14 @@ class ControllerMail extends Controller
         ];
 
         try {
-
-            Mail::send('emails.welcome', $data, function ($message) use ($emails, $data, $pathToFile, $from) {
-
-                $message->from($from, 'result php');
+            Mail::send('emails.welcome', $data, function ($message) use ($emails, $data, $pathToFile) {
+                $message->from(env('MAIL_USERNAME'), 'result php');
                 $message->to($emails)->subject('Report  test');
 
                 //Parcourt le tableau pour générer chaque pièce jointe
                 foreach($pathToFile as  $path){
                     $message->attach($path);
                 }
-
             });
 
         } catch (\Exception $e) {
@@ -51,23 +48,5 @@ class ControllerMail extends Controller
         return response()->json(['status' => 'success', 'return' => "Your email has been sent successfully"]);
 
     }
-
-}
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    /*public function build()
-    {
-        return $this->view('emails.welcome')
-            ->attachData($pathToFile, 'name.txt', [
-                'mime' => 'plain/text',
-            ]);
-    }
-
-
-
-
 
 }
