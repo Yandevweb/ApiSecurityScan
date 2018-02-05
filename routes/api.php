@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 Route::post('get-details', 'Api\PassportController@getDetails');
 });
 
-Route::post('urltest','Api\ControllerUrl@test');
+Route::post('process','Api\ControllerUrl@process');
 Route::post('tools/phpca','Api\ControllerTool@toolphpca');
 Route::post('tools/phpcs','Api\ControllerTool@toolPhpCs');
 Route::post('tools/phpmetrics','Api\ControllerTool@toolPhpMetrics');
