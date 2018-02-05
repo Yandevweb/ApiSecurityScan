@@ -17,6 +17,12 @@ class ControllerUrl extends Controller
     {
         // Récupération et clonage du repo
         $tool = $this->getRepo($request);
+
+        if (!$tool instanceof ControllerTool)
+        {
+            return response()->json(['status'=>'error', 'message' => $tool], 404);
+        }
+
         // Lancement des test
         $resTest = $this->launchTest($tool);
 
@@ -37,7 +43,7 @@ class ControllerUrl extends Controller
         $code = $response->getStatusCode();
 
         if($code == '404'){
-            return response()->json(['error'=>'dépot inexistant'], 404);
+            return "Invalid repository";
         } else {
             $body = $response->getBody();
             //Passage du body en string
@@ -49,7 +55,8 @@ class ControllerUrl extends Controller
             //recuperation d'un boolean pour determiner si depot privé
             $isPrivate = $responseDecoded['private'];
             if($isPrivate == 'true'){
-                var_dump($responseDecoded['private']);
+                // Erreur
+                return "Private repository";
             } else {
 
                 // Creation d'un user id à partir d'un timestamp
@@ -80,7 +87,7 @@ class ControllerUrl extends Controller
                     return $tool;
                 } else if (stristr($res, 'fatal') !== false){
                     // Sinon erreur..
-                    return response()->json(['status'=>'error', 'return' => $res], 404);
+                    return $res;
                 }
             }
         }
