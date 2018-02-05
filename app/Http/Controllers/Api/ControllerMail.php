@@ -12,14 +12,14 @@ class ControllerMail extends Controller
     {
      $data = array(
         'name' => "app-secure-scan");
-        $emails = ['enfoux.kevin@gmail.com','gnorvene@gmail.com','gregory.norvene@laposte.net'];
+        $emails = ['enfoux.kevin@gmail.com','gnorvene@gmail.com','gregory.norvene@laposte.net','yannick.jeanjean.pro@gmail.com'];
         try
         {
 
             Mail::send('emails.welcome', $data, function ($message)use ($emails, $data) {
             $message->from('gnorvene2@gmail.com', 'result php');
             $message->to($emails)->subject('Report  test');
-               // $message->to('gregory.norvene@laposte.net')->subject('Learning Laravel test email');
+               
             });
         }
         catch (\Exception $e)
