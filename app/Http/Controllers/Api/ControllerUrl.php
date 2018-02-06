@@ -27,7 +27,7 @@ class ControllerUrl extends Controller
         // Lancement des test
         $resTest = $this->launchTest($tool);
 
-        return response()->json(['status'=>'success', 'plugins' => $resTest], 200);
+        return response()->json(['status'=>'success', 'id' => $this->_userId,'plugins' => $resTest], 200);
     }
 
     /**
@@ -97,7 +97,6 @@ class ControllerUrl extends Controller
     public function launchTest(ControllerTool $tool)
     {
         $results = [];
-        $results['id'] = $this->_userId;
         $results[] = $tool->toolPhpca();
         $results[] = $tool->toolPhpCs();
         $results[] = $tool->toolPhpMetrics();
