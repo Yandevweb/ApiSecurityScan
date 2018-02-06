@@ -18,6 +18,7 @@ class ControllerTool extends AbstractTools
 
         $testReturn['name']         = "PHP Code Analyzer";
         $testReturn['description']  = "Finds usage of non-built-in extensions.";
+        $testReturn['logLink']      = "false";
         $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testPhpca.txt";
 
@@ -33,6 +34,7 @@ class ControllerTool extends AbstractTools
 
         $testReturn['name']         = "PHP Code Sniffer";
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
+        $testReturn['logLink']      = "false";
         $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testPhpcs.txt";
 
@@ -64,6 +66,7 @@ class ControllerTool extends AbstractTools
 
         $testReturn['name']         = "Test Ability";
         $testReturn['description']  = "Analyses and produces a report with testability issues of a php codebase.";
+        $testReturn['logLink']      = "false";
         $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testAbility.txt";
 
