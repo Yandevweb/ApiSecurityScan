@@ -12,6 +12,7 @@ class ControllerUrl extends Controller
 
     private $_path     = null;
     private $_logsPath = null;
+    private $_userId   = null;
 
     public function process(Request $request)
     {
@@ -61,11 +62,11 @@ class ControllerUrl extends Controller
 
                 // Creation d'un user id à partir d'un timestamp
                 $date = new DateTime();
-                $tempUserId = $date->getTimeStamp();
+                $this->_userId = $date->getTimeStamp();
 
                 // Par défaut dans répertoire de l'utilisateur non authentifié
-                $this->_path     = env('FREE_USER_PATH') ."/". $tempUserId ."/". $repoName;
-                $this->_logsPath = env('FREE_USER_PATH') ."/". $tempUserId ."/logs";
+                $this->_path     = env('FREE_USER_PATH') ."/". $this->_userId ."/". $repoName;
+                $this->_logsPath = env('FREE_USER_PATH') ."/". $this->_userId ."/logs";
 
                 // Suppression du Repo si il est déjà existant
                 if (is_dir($this->_path)){
@@ -96,10 +97,11 @@ class ControllerUrl extends Controller
     public function launchTest(ControllerTool $tool)
     {
         $results = [];
-        $results['php_code_analyzer']   = $tool->toolPhpca();
-        $results['php_sode_sniffer']    = $tool->toolPhpCs();
-        $results['php_metrics']         = $tool->toolPhpMetrics();
-        $results['test_ability']        = $tool->toolTestability();
+        $results['id'] = $this->_userId;
+        $results[] = $tool->toolPhpca();
+        $results[] = $tool->toolPhpCs();
+        $results[] = $tool->toolPhpMetrics();
+        $results[] = $tool->toolTestability();
 
         return $results;
     }
