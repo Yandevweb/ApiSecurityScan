@@ -96,10 +96,10 @@ class ControllerUrl extends Controller
     public function launchTest(ControllerTool $tool)
     {
         $results = [];
-        $results['phpCa']       = $tool->toolPhpca();
-        $results['phpCs']       = $tool->toolPhpCs();
-        $results['phpMetrics']  = $tool->toolPhpMetrics();
-        $results['testability'] = $tool->toolTestability();
+        $results['php_code_analyzer']   = $tool->toolPhpca();
+        $results['php_sode_sniffer']    = $tool->toolPhpCs();
+        $results['php_metrics']         = $tool->toolPhpMetrics();
+        $results['test_ability']        = $tool->toolTestability();
 
         return $results;
     }
