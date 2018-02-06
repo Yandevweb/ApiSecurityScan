@@ -16,7 +16,7 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpca.txt";
         file_put_contents($filename,$res);
 
-        $testReturn['name']         = "php_code_analyzer";
+        $testReturn['name']         = "PHP Code Analyzer";
         $testReturn['description']  = "Finds usage of non-built-in extensions.";
         $testReturn['log']          = $res;
 
@@ -30,7 +30,7 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpcs.txt";
         file_put_contents($filename,$res);
 
-        $testReturn['name']         = "php_sode_sniffer";
+        $testReturn['name']         = "PHP Code Sniffer";
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
         $testReturn['log']          = $res;
 
@@ -44,8 +44,9 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpMetrics.txt";
         file_put_contents($filename,$res);
 
-        $testReturn['name']         = "php_metrics";
+        $testReturn['name']         = "PHP Metrics";
         $testReturn['description']  = "Calculates all sorts of metrics, and display them in a gorgeous interface.";
+        $testReturn['logLink']      = "true";
         $testReturn['log']          = $res;
 
         return $testReturn;
@@ -58,7 +59,7 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testAbility.txt";
         file_put_contents($filename,$res);
 
-        $testReturn['name']         = "test_ability";
+        $testReturn['name']         = "Test Ability";
         $testReturn['description']  = "Analyses and produces a report with testability issues of a php codebase.";
         $testReturn['log']          = $res;
 
