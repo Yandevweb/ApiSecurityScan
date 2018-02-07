@@ -30,7 +30,7 @@ class ControllerTool extends AbstractTools
     public function toolPhpCs()
     {
         $testReturn =[];
-        $res = shell_exec($this->_vendorBinPath.'phpcs '.$this->_projectPath);
+        $res = shell_exec($this->_vendorBinPath.'phpcs --report=json '.$this->_projectPath);
         $filename = $this->_logsPath."/testPhpcs.txt";
         file_put_contents($filename,$res);
 
@@ -85,8 +85,11 @@ class ControllerTool extends AbstractTools
     {
         $log = (string)$str;
         $log = str_replace("var/www/tmp/freeUser", "", $log);
-        $log = str_replace("\n", "<br>", $log);
+//        $log = str_replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;", $log);
+//        $log = str_replace("\r", "<br>", $log);
+//        $log = str_replace("\n", "<br>", $log);
 
+        $log = htmlentities($log);
         return $log;
     }
 }
