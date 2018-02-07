@@ -87,9 +87,8 @@ class ControllerTool extends AbstractTools
         $log = str_replace("var/www/tmp/freeUser", "", $log);
 //        $log = str_replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;", $log);
 //        $log = str_replace("\r", "<br>", $log);
-//        $log = str_replace("\n", "<br>", $log);
+        $log = str_replace("\n", "<br>", $log);
 
-        $log = htmlentities($log);
         return $log;
     }
 }
