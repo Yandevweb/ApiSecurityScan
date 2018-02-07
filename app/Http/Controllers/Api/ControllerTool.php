@@ -34,7 +34,7 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpcs.txt";
         file_put_contents($filename,$res);
 
-        $res = $this->_formatLog($res);
+        //$res = $this->_formatLog($res);
 
         $testReturn['name']         = "PHP Code Sniffer";
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
