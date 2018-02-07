@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcesTool;
+use App\Jobs\ProcesToolPhca;
+use App\Jobs\ProcesToolPhpcs;
+use App\Jobs\ProcesToolPhpmetrics;
+use App\Jobs\ProcesToolTestability;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use DateTime;
@@ -81,12 +86,12 @@ class ControllerUrl extends Controller
 
                 $statusCode = 200;
                 // Si il est bien cloné
-                if(stristr($res, 'Cloning') !== false)
-                {
+                //if(stristr($res, 'Cloning') !== false)
+                //{
                     $tool = new ControllerTool($this->_path, $repoName,  $this->_logsPath);
 
                     return $tool;
-                } else if (stristr($res, 'fatal') !== false){
+                /*} else */if (stristr($res, 'fatal') !== false){
                     // Sinon erreur..
                     return $res;
                 }
@@ -97,12 +102,14 @@ class ControllerUrl extends Controller
     public function launchTest(ControllerTool $tool)
     {
         $results = [];
-        $results[] = $tool->toolPhpca();
-        $results[] = $tool->toolPhpCs();
-        $results[] = $tool->toolPhpMetrics();
-        $results[] = $tool->toolTestability();
 
-        return $results;
+        $results[] = dispatch(new ProcesToolPhca($tool));
+        $results[]= dispatch(new ProcesToolPhpcs($tool));
+        $results[]= dispatch(new ProcesToolPhpmetrics($tool));
+        $results[]= dispatch(new ProcesToolTestability($tool));
+
+
+       return $results;
     }
 
     public function parseUrl($url)
