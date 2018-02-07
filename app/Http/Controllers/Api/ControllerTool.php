@@ -83,8 +83,8 @@ class ControllerTool extends AbstractTools
 
     private function _formatLog($str)
     {
-        $log = "";
-        $log = str_replace("var/www/tmp/freeUser", "", $str);
+        $log = (string)$str;
+        $log = str_replace("var/www/tmp/freeUser", "", $log);
         $log = str_replace("\n", "<br>", $log);
 
         return $log;
