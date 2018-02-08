@@ -15,6 +15,7 @@ class ControllerMail extends Controller
             'name' => "app-secure-scan"
         );
         $emails = $request->input('emails');
+        $idfile= $request ->input('id');
         //$emails = ['enfoux.kevin@gmail.com', 'gnorvene@gmail.com', 'gregory.norvene@laposte.net', 'yannick.jeanjean.pro@gmail.com'];
 
 
@@ -25,7 +26,7 @@ class ControllerMail extends Controller
 
         try
         {
-            Mail::send('emails.welcome', $data, function ($message) use ($emails, $data, $pathToFile,$request)
+            Mail::send('emails.welcome', $data, function ($message) use ($emails, $data, $pathToFile,$idfile)
             {
                 $message->from(env('MAIL_USERNAME'), 'result php');
                 $message->to($emails)->subject('Report  test');
@@ -33,7 +34,7 @@ class ControllerMail extends Controller
                 //Parcourt le tableau pour générer chaque pièce jointe
                 foreach($pathToFile as  $path)
                 {
-                    $file = env('FREE_USER_PATH').'/'.$request.$path;
+                    $file = env('FREE_USER_PATH').'/'.$idfile.$path;
                         if(is_file($file))
                         {
                             $message->attach($file);
