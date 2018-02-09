@@ -79,15 +79,14 @@ class ControllerUrl extends Controller
                     shell_exec("mkdir " .  $this->_logsPath);
                 }
 
-                //Todo regarder pour modifier la condition
                 $statusCode = 200;
                 // Si il est bien cloné
-//                if(stristr($res, 'Cloning') !== false)
-//                {
+                if(stristr($res, 'Cloning') !== false)
+                {
                     $tool = new ControllerTool($this->_path, $repoName,  $this->_logsPath);
 
                     return $tool;
-                /*} else*/ if (stristr($res, 'fatal') !== false){
+                } else if (stristr($res, 'fatal') !== false){
                     // Sinon erreur..
                     return $res;
                 }
