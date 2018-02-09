@@ -34,7 +34,7 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpcs.txt";
         file_put_contents($filename,$res);
 
-        $res = $this->_decodeToHtml($res);
+        $res = $this->_cleanJson($res);
 
         $testReturn['name']         = "PHP Code Sniffer";
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
@@ -85,35 +85,24 @@ class ControllerTool extends AbstractTools
     {
         $log = (string)$str;
         $log = str_replace("var/www/tmp/freeUser", "", $log);
-//        $log = str_replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;", $log);
-//        $log = str_replace("\r", "<br>", $log);
         $log = str_replace("\n", "<br>", $log);
 
         return $log;
     }
 
-    private function _decodeToHtml($json)
+    private function _cleanJson($json)
     {
         $json = json_decode($json, true);
-//        $json $json['files'];
-//        $jump = "<br>";
         $files = [];
 
         foreach($json['files'] as $fileName => $messages) {
             $fileName = str_replace("var/www/tmp/freeUser", "", $fileName);
             $files[$fileName] = $messages;
 
-//
-//            foreach($messages as $message){
-//                $text = $message[''];
-//
-//                $log .= $text;
-//            }
         }
         $log['totals'] = $json['totals'];
         $log['files'] = $files;
 
         return $log;
-        //return json_encode($log);
     }
 }
