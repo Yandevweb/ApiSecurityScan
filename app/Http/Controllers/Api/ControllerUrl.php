@@ -29,9 +29,9 @@ class ControllerUrl extends Controller
 
         // Envoi du mail
         $email = new ControllerMail();
-        $email->sendEmail($request, $resTest, $this->_userId);
+        $send  = $email->sendEmail($request, $resTest, $this->_userId);
 
-        return response()->json(['status'=>'success', 'id' => $this->_userId,'plugins' => $resTest], 200);
+        return response()->json(['status'=>'success','email' => $send,'id' => $this->_userId,'plugins' => $resTest], 200);
     }
 
     /**
