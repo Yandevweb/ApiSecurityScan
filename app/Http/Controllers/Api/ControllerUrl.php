@@ -27,6 +27,10 @@ class ControllerUrl extends Controller
         // Lancement des test
         $resTest = $this->launchTest($tool);
 
+        // Envoi du mail
+        $email = new ControllerMail();
+        $email->sendEmail($request, $resTest, $this->_userId);
+
         return response()->json(['status'=>'success', 'id' => $this->_userId,'plugins' => $resTest], 200);
     }
 
