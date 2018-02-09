@@ -16,10 +16,12 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpca.txt";
         file_put_contents($filename,$res);
 
+        $res = $this->_formatLog($res);
+
         $testReturn['name']         = "PHP Code Analyzer";
         $testReturn['description']  = "Finds usage of non-built-in extensions.";
         $testReturn['logLink']      = "false";
-        $testReturn['log']          = str_replace("/var/www/tmp/freeUser", "", $res);
+        $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testPhpca.txt";
 
         return $testReturn;
@@ -28,14 +30,16 @@ class ControllerTool extends AbstractTools
     public function toolPhpCs()
     {
         $testReturn =[];
-        $res = shell_exec($this->_vendorBinPath.'phpcs '.$this->_projectPath);
+        $res = shell_exec($this->_vendorBinPath.'phpcs --report=json '.$this->_projectPath);
         $filename = $this->_logsPath."/testPhpcs.txt";
         file_put_contents($filename,$res);
+
+        $res = $this->_cleanJson($res);
 
         $testReturn['name']         = "PHP Code Sniffer";
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
         $testReturn['logLink']      = "false";
-        $testReturn['log']          = str_replace("/var/www/tmp/freeUser", "", $res);
+        $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testPhpcs.txt";
 
         return $testReturn;
@@ -48,10 +52,12 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testPhpMetrics.txt";
         file_put_contents($filename,$res);
 
+        $res = $this->_formatLog($res);
+
         $testReturn['name']         = "PHP Metrics";
         $testReturn['description']  = "Calculates all sorts of metrics, and display them in a gorgeous interface.";
         $testReturn['logLink']      = "true";
-        $testReturn['log']          = str_replace("/var/www/tmp/freeUser", "", $res);
+        $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testPhpMetrics.txt";
 
         return $testReturn;
@@ -64,12 +70,39 @@ class ControllerTool extends AbstractTools
         $filename = $this->_logsPath."/testAbility.txt";
         file_put_contents($filename,$res);
 
+        $res = $this->_formatLog($res);
+
         $testReturn['name']         = "Test Ability";
         $testReturn['description']  = "Analyses and produces a report with testability issues of a php codebase.";
         $testReturn['logLink']      = "false";
-        $testReturn['log']          = str_replace("/var/www/tmp/freeUser", "", $res);
+        $testReturn['log']          = $res;
         $testReturn['logFile']      = "/logs/testAbility.txt";
 
         return $testReturn;
+    }
+
+    private function _formatLog($str)
+    {
+        $log = (string)$str;
+        $log = str_replace("var/www/tmp/freeUser", "", $log);
+        $log = str_replace("\n", "<br>", $log);
+
+        return $log;
+    }
+
+    private function _cleanJson($json)
+    {
+        $json = json_decode($json, true);
+        $files = [];
+
+        foreach($json['files'] as $fileName => $messages) {
+            $fileName = str_replace("var/www/tmp/freeUser", "", $fileName);
+            $files[$fileName] = $messages;
+
+        }
+        $log['totals'] = $json['totals'];
+        $log['files'] = $files;
+
+        return $log;
     }
 }
