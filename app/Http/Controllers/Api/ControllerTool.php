@@ -40,6 +40,7 @@ class ControllerTool extends AbstractTools
         $testReturn['description']  = "PHPCS checks the code for a large range of coding standard.";
         $testReturn['logLink']      = "false";
         $testReturn['log']          = $res;
+        $testReturn['log2']         = $res['files'];
         $testReturn['logFile']      = "/logs/testPhpcs.txt";
 
         return $testReturn;
