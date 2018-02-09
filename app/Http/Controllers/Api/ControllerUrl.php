@@ -86,6 +86,7 @@ class ControllerUrl extends Controller
 
                 $statusCode = 200;
                 // Si il est bien cloné
+              
                 //if(stristr($res, 'Cloning') !== false)
                 //{
                     $tool = new ControllerTool($this->_path, $repoName,  $this->_logsPath);
